@@ -1,0 +1,9 @@
+
+# only do not add those files for such a project as it's for me but for other projects 
+# you must specifiyies such a files/directory and more and create the requirement.txt files 
+# to add all the required packages with theme required version ,
+
+
+__pycache__
+ venv/
+.env
