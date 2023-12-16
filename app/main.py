@@ -178,7 +178,7 @@ app.add_middleware(
 # declare a route for handling the course with the website, 
 @app.get('/')
 def my_root():
-    return {"output" : "Hello world"}
+    return {"message" : "hello world"}
 
 # including the routes : 
 app.include_router(post_route.route)

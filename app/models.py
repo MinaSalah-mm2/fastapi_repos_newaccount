@@ -69,7 +69,11 @@ from .database import Base
 # 
 #   
 #  note : never ever with alembic revision implement the upgrade without the downgrade . 
-# 
+
+
+
+# while using the alembic there's no need to such a model being implemented with sqlAlchemy. 
+# where the alembic would handle the models build
 # 
 
 
@@ -83,6 +87,7 @@ class Post(Base):
     published = Column(Boolean, server_default='True', nullable=False)
     created_at = Column(TIMESTAMP(timezone=True),
                         nullable=False, server_default=text('now()'))
+    isPrivate = Column(Boolean, nullable=False, server_default='False')
     user_id = Column(Integer, ForeignKey(
         'users.id', ondelete='CASCADE'), nullable=False)
 

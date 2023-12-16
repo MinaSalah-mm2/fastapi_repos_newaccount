@@ -32,7 +32,7 @@ def vote(
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f'post with id : {vote.post_id} dose not exist.')
 
-    # try to check if the vote is alredy exist before,
+    # try to check if the vote is alredy exist before, also chekc it's form the same user
     vote_query = db.query(models.Vote).filter(
         models.Vote.post_id == vote.post_id, models.Vote.user_id == currentUser.id
     )

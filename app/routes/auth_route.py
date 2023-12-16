@@ -7,11 +7,10 @@ from .. import database, schemas, models, utils, oauth
 
 route = APIRouter(tags=['Authentication'])
 
-# as use the oAuthRequestForm , must put the credential in the form-data of the body,
+# as use the OAuth2PasswordRequestForm , must put the credential in the form-data of the body,
 # also, can still working with normal schema to specify what the data coming would look like ?
 
 # note : with OAuth2PasswordRequestForm there's no field called email it called username.
-
 
 
 @route.post('/login', response_model=schemas.TokenOut)
@@ -35,6 +34,7 @@ def login(
     # create token & return .
     # in this dict, can add all info need to be attach to the token, like user_role, ...etc .
     token = oauth.createAccessToken(
-        payload={'user_id': user.id})
+        payload={'user_id': user.id}
+    )
 
     return {'access_token': token, 'token_type': 'bearer'}

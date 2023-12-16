@@ -40,7 +40,7 @@ class UserOutRelation(BaseModel):
 class BasePost(BaseModel):
     name: str
     content: str
-    published: bool
+    published: bool = True
 
     def __str__(self) -> str:
         return f'name : {self.name}, content: {self.content}, published: {self.published} '

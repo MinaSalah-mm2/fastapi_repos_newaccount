@@ -86,9 +86,6 @@ def get_post(
     currentUser: models.User = Depends(oauth.getCurrentUser)
 ):
 
-    db.query(models.Post, func.count(models.Vote.post_id).label("votes")).join(
-        models.Vote, models.Post.id == models.Vote.post_id, isouter=True).group_by(models.Post.id)
-
     post = db.query(models.Post).filter(models.Post.id == id).first()
 
     if (not post):
@@ -103,7 +100,6 @@ def get_post(
     return post
 
 
-
 @route.get('/posts_votes/{id}', response_model=schemas.PostVoteOutput)
 def get_post_Votes(
     id: int, db: Session = Depends(database.get_db),
@@ -112,17 +108,14 @@ def get_post_Votes(
 
     post = db.query(models.Post, func.count(models.Vote.post_id).label("votes")).join(
         models.Vote, models.Post.id == models.Vote.post_id, isouter=True).group_by(models.Post.id).filter(models.Post.id == id).first()
-    
 
     if (not post):
         raise HTTPException(status.HTTP_404_NOT_FOUND,
                             detail=f'post with id: {id} was not found!')
 
-
     print(post.__str__())
 
     return post
-
 
 
 @route.post('/', status_code=status.HTTP_201_CREATED, response_model=schemas.PostOut)
@@ -175,7 +168,9 @@ def delete_post(
 
 @route.put('/{id}', response_model=schemas.PostOut)
 def update_post(
-    id: int, payload: schemas.PostUpdated, db: Session = Depends(database.get_db),
+    id: int,
+    payload: schemas.PostUpdated,
+    db: Session = Depends(database.get_db),
     currentUser: models.User = Depends(oauth.getCurrentUser)
 ):
     query_post = db.query(models.Post).filter(models.Post.id == id)
@@ -186,6 +181,7 @@ def update_post(
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f'post with id: {id} was not exist !')
 
+    # this http must be 401 non-authorized. 
     if (post.user_id != currentUser.id):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
                             detail='user with this credential not allowed to update this content')
@@ -251,7 +247,7 @@ def findIndex(id: int):
 #     return {'message': 'Hello world with --reload'}
 
 
-# @route.get('/posts')
+# @route.get('/             ')
 # def get_posts():
 #     cusrsor.execute("""SELECT * FROM posts;""")
 #     posts = cusrsor.fetchall()

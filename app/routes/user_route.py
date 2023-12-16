@@ -35,7 +35,8 @@ def create_user(
 
 @route.get('/{id}', response_model=schemas.UserOut)
 def get_user(
-    id: int, db: Session = Depends(database.get_db),
+    id: int, 
+    db: Session = Depends(database.get_db),
     currentUser: models.User = Depends(oauth.getCurrentUser)
 ):
     user = db.query(models.User).filter(models.User.id == id).first()
